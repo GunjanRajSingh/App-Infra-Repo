@@ -7,6 +7,7 @@ variable "rgs" {
   }))
 }
 
+
 variable "vnet" {
   type = map(object({
     name                = string
