@@ -59,6 +59,25 @@ stages:
 
     steps:
       - checkout: self
+      - task: SonarQubePrepare@5
+        displayName: SonarQube Prepare
+        inputs:
+          SonarQube: '$(SonarQ-Serv)'
+          scannerMode: 'CLI'
+          configMode: 'manual'
+          cliProjectKey: 'Infra'
+          cliProjectName: 'Infra'
+          cliSources: '.'
+
+      # SonarQube Analyze
+      - task: SonarQubeAnalyze@5
+        displayName: SonarQube Analyze
+
+     # SonarQube Quality Gate
+      - task: SonarQubePublish@5
+        displayName: SonarQube Quality Gate
+        inputs:
+          pollingTimeoutSec: '600'
       - script: |
           tflint --init
           tflint
